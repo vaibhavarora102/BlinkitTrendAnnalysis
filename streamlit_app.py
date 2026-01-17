@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import datetime
 import os
+import joblib
 
 # Page Config
 st.set_page_config(page_title="Blinkit Sales Prediction", layout="wide")
@@ -14,14 +15,14 @@ st.markdown("Enter the daily metrics below to predict the **Total Sales Revenue*
 # Load Model
 @st.cache_resource
 def load_model():
-    model_path = os.path.join("trained_models", "xgb_model.pkl")
+    model_path = os.path.join("trained_models", "xgb1.joblib.dat")
     if not os.path.exists(model_path):
         st.error(f"Model file not found at {model_path}. Please train the model using the notebook first.")
         return None
     
     try:
         with open(model_path, 'rb') as f:
-            model = pickle.load(f)
+            model = joblib.load(f)
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
